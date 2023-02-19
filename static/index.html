@@ -4,30 +4,31 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
         <link rel="stylesheet" type="text/css" href="formdesign.css">
-        <title>Subscription Tracker</title>
+        <meta http-equiv="refresh" content="10">
+        <title>SubTracker</title>
     </head>
     <body>
       <div class="form">
         <div class="title">Welcome</div>
         <div class="subtitle">Add your subscription!</div>
         <div class="input-container ic1">
-          <input id="name" class="input" type="text" placeholder="What is the name of the subcription?" />
+          <input id="name" class="input" type="text" placeholder="Name?" />
         </div>
         <div class="input-container ic2">
-          <input id="first-payment" class="input" type="date"/>
+          <input id="first-payment" class="input" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Start date?"/>
         </div>
         <div class="input-container ic2">
-          <input id="billing-period" class="input" placeholder="Choose billing period" list="periods"/>
-          <datalist id="periods">
+          <select id="periods" class="input">
+            <option disabled="disabled" selected="true">Billing period?</option>
             <option>Monthly</option>
             <option>Quartely</option>
             <option>Annually</option>
-          </datalist>
+          </select>
         </div>  
         <div class="input-container ic2">
-          <input id="cost" class="input" type="number" placeholder="What is the cost?" />
+          <input id="cost" class="input" type="number" placeholder="Cost?" step="0.01"/>
         </div>
-        <button type="text" class="submit">submit</button>
+        <button type="text" class="submit">Add!</button>
       </div>
     </body>
 </html>
