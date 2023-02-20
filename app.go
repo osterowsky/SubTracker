@@ -1,14 +1,16 @@
 package main
 
 import (
-	"log"
 	"net/http"
+
+	c "subtracker/controller"
 )
 
 func main() {
-	http.Handle("/", http.FileServer(http.Dir("./static")))
-	err := http.ListenAndServe(":8081", nil)
-	if err != nil {
-		log.Fatal(err)
-	}
+
+	http.HandleFunc("/", c.MainPage)
+	http.HandleFunc("/login", c.Login)
+	http.HandleFunc("/register", c.Register)
+
+	http.ListenAndServe(":8080", nil)
 }
