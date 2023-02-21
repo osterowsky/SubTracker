@@ -4,10 +4,23 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
         <meta http-equiv="refresh" content="10">
-        <link rel="stylesheet" type="text/css" href="/static/stylesheets/design.css">
+        <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+        <link rel="stylesheet" type="text/css" href="/static/stylesheets/subform.css">
+        <link rel="stylesheet" type="text/css" href="/static/stylesheets/navbar.css">
         <title>SubTracker</title>
     </head>
     <body>
+
+      <nav class="navbar">
+        <div class="home">
+            <a class="active" href="/">SubTracker</a>
+        </div>
+        <ul id="nav" class="nav-list">
+            <li class="list-item"> <a href="/login">Login</a> </li>
+            <li class="list-item"> <a href="/register">Register</a></li>
+        </ul>
+      </nav>
+
       <div class="form">
         <div class="title">Welcome</div>
         <div class="subtitle">Add your subscription!</div>
@@ -30,6 +43,7 @@
         </div>
         <button type="text" class="submit">Add!</button>
       </div>
+
     </body>
 </html>
 

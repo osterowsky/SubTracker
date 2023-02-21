@@ -1,0 +1,40 @@
+.navbar a {
+    color: white;
+    text-align: center;
+    font-size: 1.3rem;
+    font-family: 'Poppins';
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .navbar a:hover {
+    color: RoyalBlue;
+  }
+  
+  .navbar a.active {
+    color: RoyalBlue;
+  }
+  
+  .navbar {
+    background-color: transparent;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    position: fixed;
+    top: 0;
+  }
+  
+  .nav-list {
+    margin: 0px;
+    list-style-type: none;
+  }
+  
+  .list-item {
+    display: inline;
+    padding: 0px 15px;
+  }
+  
+  .list-item:not(:last-child){
+    border-right: 1px solid white;
+  }
