@@ -15,6 +15,10 @@ body {
     width: 320px;
     text-align: center;
   }
+
+  #login-form {
+    height: 400px;
+  }
   
   .title {
     color: #eee;
@@ -51,7 +55,7 @@ body {
     border-radius: 12px;
     border: 0;
     box-sizing: border-box;
-    color: #808097;
+    color: white;
     font-family: sans-serif;
     height: 100%;
     outline: 0;
@@ -69,7 +73,7 @@ body {
     border-radius: 12px;
     border: 0;
     box-sizing: border-box;
-    color: #eee;
+    color: white;
     cursor: pointer;
     font-size: 18px;
     font-family: 'Poppins';
