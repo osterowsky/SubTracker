@@ -1,42 +1,24 @@
 package main
 
 import (
-	"database/sql"
-	"log"
 	"net/http"
 	c "subtracker/cmd"
+
+	"github.com/gorilla/mux"
 
 	_ "github.com/lib/pq"
 )
 
 func main() {
 
-	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	r := mux.NewRouter()
 
-	http.HandleFunc("/", c.MainPage)
-	http.HandleFunc("/login", c.Login)
-	http.HandleFunc("/register", c.Register)
+	// serving css inside static resources
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
-	http.ListenAndServe(":8080", nil)
-}
+	r.HandleFunc("/", c.MainPage)
+	r.HandleFunc("/login", c.Login)
+	r.HandleFunc("/register", c.Register)
 
-var db *sql.DB
-
-func init() {
-	var err error
-
-	connStr := "postgres://osternpatryk@localhost/subtracker?sslmode=disable"
-	db, err = sql.Open("postgres", connStr)
-
-	if err != nil {
-		panic(err)
-	}
-
-	// checks if we are connected to db
-	if err = db.Ping(); err != nil {
-		panic(err)
-	}
-
-	log.Println("The database is connected")
+	http.ListenAndServe(":8080", r)
 }
