@@ -3,5 +3,5 @@ CREATE TABLE users (
     username VARCHAR(128),
     email VARCHAR(128) UNIQUE,
     passwordHash VARCHAR(32),
-    PRIMARY KEY (id),
+    PRIMARY KEY (id)
 );
