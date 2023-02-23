@@ -2,7 +2,7 @@ package main
 
 import (
 	"net/http"
-	c "subtracker/cmd"
+	c "subtracker/controller"
 
 	"github.com/gorilla/mux"
 
