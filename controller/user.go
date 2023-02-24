@@ -10,6 +10,7 @@ func createUser(username, email, password string) (err error) {
 
 	// Generate the MD5 hash of the password
 	passwordHash := md5.Sum([]byte(password))
+	defer d.DB.Close()
 
 	// Insert the user into the database
 	_, err = d.DB.Exec("INSERT INTO users (username, email, passwordhash) VALUES ($1, $2, $3)", username, email, hex.EncodeToString(passwordHash[:]))
@@ -17,4 +18,8 @@ func createUser(username, email, password string) (err error) {
 		return err
 	}
 	return nil
+}
+
+func loginUser(username, passHash string) (err error) {
+	return err
 }

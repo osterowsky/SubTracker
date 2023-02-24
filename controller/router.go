@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"html/template"
 	"log"
 	"net/http"
@@ -14,8 +16,27 @@ func MainPage(w http.ResponseWriter, r *http.Request) {
 
 // handles route for login
 func Login(w http.ResponseWriter, r *http.Request) {
-	templ := template.Must(template.ParseFiles("static/templates/login.html"))
-	templ.Execute(w, nil)
+	if r.Method == "GET" {
+		templ := template.Must(template.ParseFiles("static/templates/login.html"))
+		templ.Execute(w, nil)
+	} else if r.Method == "POST" {
+
+		err := r.ParseForm()
+		if err != nil {
+			log.Fatal(err)
+		}
+		username := r.FormValue("username")
+		password := r.FormValue("password")
+		passwordHash := md5.Sum([]byte(password))
+
+		for err := loginUser(username, hex.EncodeToString(passwordHash[:])); err != nil; {
+			log.Fatal(err)
+		}
+
+		// Redirect the user to the index page
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+
 }
 
 // handles route for register

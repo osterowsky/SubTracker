@@ -23,6 +23,9 @@ func init() {
 	if err = DB.Ping(); err != nil {
 		panic(err)
 	}
-
 	log.Println("The database is connected")
+
+	if err != nil {
+		panic(err)
+	}
 }
