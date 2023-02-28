@@ -25,8 +25,6 @@ func init() {
 	}
 	log.Println("The database is connected")
 
-	_, err = DB.Exec("INSERT INTO users (username, email, passwordhash) VALUES ('a', 'a', 'a');")
-
 	if err != nil {
 		panic(err)
 	}

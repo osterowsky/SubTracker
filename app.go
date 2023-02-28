@@ -19,6 +19,7 @@ func main() {
 	r.HandleFunc("/", c.MainPage)
 	r.HandleFunc("/login", c.Login)
 	r.HandleFunc("/register", c.Register)
+	r.HandleFunc("/logout", c.Logout)
 
 	http.ListenAndServe(":8080", r)
 }

@@ -73,5 +73,4 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	// Set the authenticated value on the session to false
 	session.Values["authenticated"] = false
 	session.Save(r, w)
-	w.Write([]byte("Logout Successful"))
 }

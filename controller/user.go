@@ -18,7 +18,7 @@ func createUser(username, email, password string) (err error) {
 	defer d.DB.Close()
 
 	// Insert the user into the database
-	_, err = d.DB.Exec("INSERT INTO users (username, email, passwordhash) VALUES ($1, $2, $3)", username, email, hex.EncodeToString(passwordHash[:]))
+	_, err = d.DB.Exec("INSERT INTO users (username, email, passwordHash) VALUES ($1, $2, $3)", username, email, hex.EncodeToString(passwordHash[:]))
 	if err != nil {
 		return err
 	}
@@ -27,14 +27,17 @@ func createUser(username, email, password string) (err error) {
 
 func loginUser(w http.ResponseWriter, r *http.Request, username, passHash string) (err error) {
 	var storedHash string
-	row, err := d.DB.Query("SELECT passwordHash WHERE username = $1;", username)
+	row, err := d.DB.Query("SELECT passwordHash FROM users WHERE username = $1;", username)
+
 	if err != nil {
 		return err
 	}
 	defer row.Close()
 
-	for err := row.Scan(&storedHash); err != nil; {
-		return err
+	for row.Next() {
+		for err := row.Scan(&storedHash); err != nil; {
+			return err
+		}
 	}
 
 	if len(storedHash) != 0 {
@@ -47,7 +50,6 @@ func loginUser(w http.ResponseWriter, r *http.Request, username, passHash string
 		} else {
 			http.Error(w, "Invalid Credentials", http.StatusUnauthorized)
 		}
-		w.Write([]byte("Login successfully!"))
 	}
 	return err
 }
