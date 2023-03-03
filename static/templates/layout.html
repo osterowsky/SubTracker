@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+        <meta http-equiv="refresh" content="10">
+        <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+        <link rel="stylesheet" type="text/css" href="/static/stylesheets/subform.css">
+        <link rel="stylesheet" type="text/css" href="/static/stylesheets/navbar.css">
+        <title>{{ block "title" . }}{{ end }}</title>
+    </head>
+    <body>
+
+      {{ if .IsLoggedIn }}
+      <nav class="navbar">
+        <div class="home">
+            <a class="active" href="/">SubTracker</a>
+        </div>
+        <ul id="nav" class="nav-list">
+            <li class="list-item"> <a href="/logout">Logout</a> </li>
+        </ul>
+      </nav>
+      {{ else }}
+      <nav class="navbar">
+        <div class="home">
+            <a class="active" href="/">SubTracker</a>
+        </div>
+        <ul id="nav" class="nav-list">
+            <li class="list-item"> <a href="/login">Login</a> </li>
+            <li class="list-item"> <a href="/register">Register</a></li>
+        </ul>
+      </nav>
+      {{ end }}
+
+      {{ block "content" . }}{{ end }}
+
+    </body>
+</html>
+

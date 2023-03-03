@@ -1,45 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-        <meta http-equiv="refresh" content="10">
-        <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-        <link rel="stylesheet" type="text/css" href="/static/stylesheets/subform.css">
-        <link rel="stylesheet" type="text/css" href="/static/stylesheets/navbar.css">
-        <title>Register</title>
-    </head>
-    <body>
-        
-        <nav class="navbar">
-            <div class="home">
-                <a href="/">SubTracker</a>
-            </div>
-            <ul id="nav" class="nav-list">
-                <li class="list-item"> <a href="/login">Login</a> </li>
-                <li class="list-item"> <a class="active" href="/register">Register</a></li>
-            </ul>
-          </nav>
+{{ define "title" }}Register{{ end }}
 
-          <div class="form">
-            <div class="title">Register</div>
-            <form method="POST" action="/register">
-            <div class="input-container ic1">
-                <input name="username" class="input" type="text" placeholder="Username"/>
-              </div>
-              <div class="input-container ic2">
-                <input name="email" class="input" type="text" placeholder="E-mail"/>
-              </div>
-              <div class="input-container ic2">
-                <input name="password" class="input" type="password" placeholder="Password"/>
-              </div>
-              <div class="input-container ic2">
-                <input class="input" type="password" placeholder="Repeat Password"/>
-              </div>
-            <button type="text" class="submit" id="register-button">Register!</button>
-          </form>
-          </div>
+{{ define "content" }}
+<div class="form">
+  <div class="title">Register</div>
+  <form method="POST" action="/register">
+  <div class="input-container ic1">
+      <input name="username" class="input" type="text" placeholder="Username"/>
+    </div>
+    <div class="input-container ic2">
+      <input name="email" class="input" type="text" placeholder="E-mail"/>
+    </div>
+    <div class="input-container ic2">
+      <input name="password" class="input" type="password" placeholder="Password"/>
+    </div>
+    <div class="input-container ic2">
+      <input class="input" type="password" placeholder="Repeat Password"/>
+    </div>
+  <button type="text" class="submit" id="register-button">Register!</button>
+</form>
+</div>
+{{ end }}
 
-    </body>
-</html>
-
+{{ template "layout.html" . }}

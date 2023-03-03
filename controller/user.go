@@ -3,6 +3,7 @@ package controller
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"log"
 	"net/http"
 	d "subtracker/schema/database"
 
@@ -11,7 +12,7 @@ import (
 
 var Store = sessions.NewCookieStore([]byte("secret"))
 
-func createUser(username, email, password string) (err error) {
+func createUser(w http.ResponseWriter, r *http.Request, username, email, password string) (err error) {
 
 	// Generate the MD5 hash of the password
 	passwordHash := md5.Sum([]byte(password))
@@ -22,6 +23,8 @@ func createUser(username, email, password string) (err error) {
 	if err != nil {
 		return err
 	}
+	startSession(w, r)
+	log.Println("User has been registered")
 	return nil
 }
 
@@ -42,14 +45,24 @@ func loginUser(w http.ResponseWriter, r *http.Request, username, passHash string
 
 	if len(storedHash) != 0 {
 		// It returns a new session if the sessions doesn't exist
-		session, _ := Store.Get(r, "session.id")
 		if storedHash == passHash {
-			session.Values["authenticated"] = true
-			// Saves all sessions used during the current request
-			session.Save(r, w)
+			// if passwords matches we start the session
+			startSession(w, r)
 		} else {
 			http.Error(w, "Invalid Credentials", http.StatusUnauthorized)
 		}
 	}
 	return err
+}
+
+func isLogged(r *http.Request) bool {
+	session, _ := Store.Get(r, "session.id")
+	return session.Values["authenticated"] == true
+}
+
+func startSession(w http.ResponseWriter, r *http.Request) {
+	session, _ := Store.Get(r, "session.id")
+	session.Values["authenticated"] = true
+	// Saves all sessions used during the current request
+	session.Save(r, w)
 }

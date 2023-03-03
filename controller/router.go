@@ -10,15 +10,22 @@ import (
 
 // starts main page
 func MainPage(w http.ResponseWriter, r *http.Request) {
-	templ := template.Must(template.ParseFiles("static/templates/index.html"))
-	templ.Execute(w, nil)
+	data := PageData{
+		IsLoggedIn: isLogged(r),
+	}
+	templ := template.Must(template.ParseFiles("static/templates/layout.html", "static/templates/index.html"))
+	err := templ.ExecuteTemplate(w, "index.html", data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
 }
 
 // handles route for login
 func Login(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		templ := template.Must(template.ParseFiles("static/templates/login.html"))
-		templ.Execute(w, nil)
+		templ := template.Must(template.ParseFiles("static/templates/layout.html", "static/templates/login.html"))
+		templ.ExecuteTemplate(w, "login.html", nil)
 	} else if r.Method == "POST" {
 
 		err := r.ParseForm()
@@ -44,8 +51,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 // handles route for register
 func Register(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		templ := template.Must(template.ParseFiles("static/templates/register.html"))
-		templ.Execute(w, nil)
+		templ := template.Must(template.ParseFiles("static/templates/layout.html", "static/templates/register.html"))
+		templ.ExecuteTemplate(w, "register.html", nil)
 	} else if r.Method == "POST" {
 		err := r.ParseForm()
 		if err != nil {
@@ -57,7 +64,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		email := r.FormValue("email")
 		password := r.FormValue("password")
 
-		for err = createUser(username, email, password); err != nil; {
+		for err = createUser(w, r, username, email, password); err != nil; {
 			log.Fatal(err)
 			return
 		}
@@ -73,4 +80,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	// Set the authenticated value on the session to false
 	session.Values["authenticated"] = false
 	session.Save(r, w)
+
+	log.Println("User has been logged out")
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
