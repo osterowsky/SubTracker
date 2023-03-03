@@ -10,6 +10,13 @@ import (
 
 // starts main page
 func MainPage(w http.ResponseWriter, r *http.Request) {
+
+	// if user trigger post, we add sub
+	if r.Method == "POST" {
+		addSub(w, r)
+		return
+	}
+
 	data := PageData{
 		IsLoggedIn: isLogged(r),
 	}
@@ -21,15 +28,16 @@ func MainPage(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// handles route for login
 func Login(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
+	switch r.Method {
+	case "GET":
 		templ := template.Must(template.ParseFiles("static/templates/layout.html", "static/templates/login.html"))
-		templ.ExecuteTemplate(w, "login.html", nil)
-	} else if r.Method == "POST" {
+		if err := templ.ExecuteTemplate(w, "login.html", nil); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	case "POST":
 
-		err := r.ParseForm()
-		if err != nil {
+		if err := r.ParseForm(); err != nil {
 			http.Error(w, "Please pass the data as URL form encoded", http.StatusBadRequest)
 			return
 		}
@@ -37,47 +45,47 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		password := r.FormValue("password")
 		passwordHash := md5.Sum([]byte(password))
 
-		for err := loginUser(w, r, username, hex.EncodeToString(passwordHash[:])); err != nil; {
+		// we try to log user
+		if err := loginUser(w, r, username, hex.EncodeToString(passwordHash[:])); err != nil {
 			log.Fatal(err)
 			return
 		}
 
-		// Redirect the user to the index page
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
 }
 
-// handles route for register
 func Register(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "GET" {
+	switch r.Method {
+	case "GET":
 		templ := template.Must(template.ParseFiles("static/templates/layout.html", "static/templates/register.html"))
-		templ.ExecuteTemplate(w, "register.html", nil)
-	} else if r.Method == "POST" {
-		err := r.ParseForm()
-		if err != nil {
+		if err := templ.ExecuteTemplate(w, "register.html", nil); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	case "POST":
+		if err := r.ParseForm(); err != nil {
 			http.Error(w, "Please pass the data as URL form encoded", http.StatusBadRequest)
 			return
 		}
-		// Get the form values
+
 		username := r.FormValue("username")
 		email := r.FormValue("email")
 		password := r.FormValue("password")
 
-		for err = createUser(w, r, username, email, password); err != nil; {
+		if err := createUser(w, r, username, email, password); err != nil {
 			log.Fatal(err)
 			return
 		}
 
-		// Redirect the user to the index page
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
+
 	// Get registers and returns a session for the given name and session store.
 	session, _ := Store.Get(r, "session.id")
-	// Set the authenticated value on the session to false
 	session.Values["authenticated"] = false
 	session.Save(r, w)
 

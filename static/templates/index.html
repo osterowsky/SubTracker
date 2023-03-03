@@ -5,24 +5,26 @@
 <div class="form">
   <div class="title">Welcome</div>
   <div class="subtitle">Add your subscription!</div>
+  <form action="/" method="POST">
   <div class="input-container ic1">
-    <input id="name" class="input" type="text" placeholder="Name?" />
+    <input name="name" class="input" type="text" placeholder="Name?" />
   </div>
   <div class="input-container ic2">
-    <input id="first-payment" class="input" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Start date?"/>
+    <input name="start-date" class="input" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Start date?"/>
   </div>
   <div class="input-container ic2">
-    <select id="periods" class="input">
+    <select name="billing-period" class="input">
       <option disabled="disabled" selected="true">Billing period?</option>
       <option>Monthly</option>
-      <option>Quartely</option>
+      <option>Quarterly</option>
       <option>Annually</option>
     </select>
   </div>  
   <div class="input-container ic2">
-    <input id="cost" class="input" type="number" placeholder="Cost?" step="0.01"/>
+    <input name="price" class="input" type="number" placeholder="Price?" step="0.01"/>
   </div>
   <button type="text" class="submit">Add!</button>
+</form>
 </div>
 {{ else }}
 
